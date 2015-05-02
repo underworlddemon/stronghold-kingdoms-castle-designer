@@ -45,7 +45,7 @@ public class BuildingsPanel extends JPanel implements DesignListener
 	public static final String SELECTED_BUILDING = "SelectedBuilding";
 	private static final Integer[] constructionBonuses = new Integer[] {0, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60};
 	private ButtonGroup buildingButtonGroup = new ButtonGroup();
-	private static final Dimension buttonDimension = new Dimension(50, 50);
+	private static final Dimension buttonDimension = new Dimension(50, 35);
 	private JLabel moatsLabel;
 	private JLabel ballistaTowersLabel;
 	private JLabel turretsLabel;
@@ -81,29 +81,33 @@ public class BuildingsPanel extends JPanel implements DesignListener
 		JToggleButton moatButton = createButton("<html>Moat</html>", BuildingType.MOAT);
 		JToggleButton killingPitButton = createButton("<html>Killing Pit</html>", BuildingType.KILLING_PIT);
 
-		this.setMaximumSize(new Dimension(300, 700));
-		this.setMinimumSize(new Dimension(300, 700));
-		this.setPreferredSize(new Dimension(300, 700));
+		this.setMaximumSize(new Dimension(300, 680));
+		this.setMinimumSize(new Dimension(300, 680));
+		this.setPreferredSize(new Dimension(300, 680));
 
 		setLayout(new BorderLayout());
 
 		JPanel buttonsPanel = new JPanel(new GridLayout(8, 2));
 		buttonsPanel.setBorder(new EmptyBorder(4, 4, 4, 4));
-		buttonsPanel.add(stoneWallButton);
-		buttonsPanel.add(woodenWallButton);
-		buttonsPanel.add(stoneGatehouseButton);
-		buttonsPanel.add(woodenGatehouseButton);
-		buttonsPanel.add(guardHouseButton);
-		buttonsPanel.add(woodenTowerButton);
-		buttonsPanel.add(lookoutTowerButton);
-		buttonsPanel.add(smallTowerButton);
-		buttonsPanel.add(largeTowerButton);
-		buttonsPanel.add(greatTowerButton);
-		buttonsPanel.add(smelterButton);
-		buttonsPanel.add(ballistaTowerButton);
-		buttonsPanel.add(turretButton);
-		buttonsPanel.add(moatButton);
+                		
 		buttonsPanel.add(killingPitButton);
+                buttonsPanel.add(woodenWallButton);
+                buttonsPanel.add(moatButton);
+                buttonsPanel.add(woodenTowerButton);
+                
+                buttonsPanel.add(guardHouseButton);
+                buttonsPanel.add(woodenGatehouseButton);
+                buttonsPanel.add(stoneWallButton);
+                buttonsPanel.add(stoneGatehouseButton);
+                
+                buttonsPanel.add(lookoutTowerButton);
+                buttonsPanel.add(ballistaTowerButton);
+                buttonsPanel.add(smallTowerButton);
+		buttonsPanel.add(smelterButton);
+                
+                buttonsPanel.add(largeTowerButton);
+		buttonsPanel.add(turretButton);
+                buttonsPanel.add(greatTowerButton);                
 
 		add(buttonsPanel, BorderLayout.CENTER);
 

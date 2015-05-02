@@ -23,6 +23,7 @@ package castledesigner;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -71,7 +72,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Editor
 {
-	public static final String programVersion = "1.10";
+	public static final String programVersion = "1.11";
+       // public static Boolean nowFileSaving = false;
 	private static LandPanel landPanel;
 	private static JFrame frame;
 	private static JFileChooser saveFileChooser;
@@ -79,11 +81,11 @@ public class Editor
 	private static File currentFile;
 	private static JPanel errorPanel;
 	private static final String FILE_EXTENSION = "png";
-
+        
 	public static void main( String[] args )
 	{
 		setLookAndFeel();
-		
+                
 		JPanel mainPanel = new JPanel();
 
 		landPanel = new LandPanel();
@@ -116,7 +118,7 @@ public class Editor
 		});
 		landPanel.getLandGrid().addDesignListener(buildingsPanel);
 
-		TipsPanel tipsPanel = new TipsPanel();
+		MenuPanel menuPanel = new MenuPanel();
 
 		errorPanel = new JPanel();
 		errorPanel.setBorder(new EmptyBorder(5, 10, 0, 0));
@@ -128,16 +130,18 @@ public class Editor
 
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(buildingsPanel)
+				.addComponent(menuPanel)
+                                .addComponent(buildingsPanel)
 				.addComponent(errorPanel)
-				.addComponent(tipsPanel));
+				
+                );          
 		layout.setVerticalGroup(
 			layout.createSequentialGroup()
+                                .addComponent(menuPanel)
 				.addComponent(buildingsPanel)
 				.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(errorPanel)
-				.addComponent(tipsPanel));
-
+				.addComponent(errorPanel)				
+                );
         	JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, landPanel, rightPanel);
 		
 		mainPanel.add(splitPane);
@@ -186,11 +190,12 @@ public class Editor
 		JScrollPane mainScrollPane = new JScrollPane(mainPanel);
 
 		frame = new JFrame("Stronghold Kingdoms Castle Designer");
-		frame.setJMenuBar(createMenuBar());
+		//frame.setJMenuBar(createMenuBar());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(mainScrollPane);
 		frame.pack();
 		frame.setVisible(true);
+                frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 
 	/**
@@ -267,7 +272,7 @@ public class Editor
 	 *
 	 * @return the Open menu item
 	 */
-	private static JMenuItem createOpenMenuItem()
+	public static JMenuItem createOpenMenuItem()
 	{
 		JMenuItem openMenuItem = new JMenuItem("Open");
 		openMenuItem.addActionListener(new ActionListener()
@@ -338,7 +343,7 @@ public class Editor
 	 *
 	 * @return the Save menu item.
 	 */
-	private static JMenuItem createSaveMenuItem()
+	public static JMenuItem createSaveMenuItem()
 	{
 		JMenuItem saveMenuItem = new JMenuItem("Save");
 		saveMenuItem.addActionListener(new ActionListener()
@@ -347,7 +352,9 @@ public class Editor
 			{
 				if (currentFile == null || !currentFile.getName().endsWith('.' + FILE_EXTENSION))
 				{
-					showSaveDialog();
+					//nowFileSaving == true;
+                                        showSaveDialog();
+                                        //nowFileSaving == false;
 				}
 				else
 				{
@@ -373,9 +380,17 @@ public class Editor
 		try
 		{
 			BufferedImage bufferedImage = landPanel.getDesignImage();
-			Barcode.embedBarcode(bufferedImage, generateExportString());
+                        
+                        BufferedImage newBufferedImage = new BufferedImage(bufferedImage.getWidth()+20,bufferedImage.getHeight()+20,BufferedImage.TYPE_INT_RGB );
+                        Graphics graphic = newBufferedImage.getGraphics();  
+                        graphic.setColor(Color.white);
+                        graphic.fillRect(0,0,newBufferedImage.getWidth(),19);
+                        graphic.fillRect(0,0,19,newBufferedImage.getHeight());
+                        graphic.drawImage(bufferedImage,19,19,null);
+                        
+			Barcode.embedBarcode(newBufferedImage, generateExportString());
 
-			ImageIO.write(bufferedImage, "png", file);
+			ImageIO.write(newBufferedImage, "png", file);
 			currentFile = file;
 		}
 		catch (IOException ex)
@@ -397,14 +412,16 @@ public class Editor
 	 *
 	 * @return the SaveAs menu item.
 	 */
-	private static JMenuItem createSaveAsMenuItem()
+	public static JMenuItem createSaveAsMenuItem()
 	{
 		JMenuItem saveAsMenuItem = new JMenuItem("Save As");
 		saveAsMenuItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+                                //nowFileSaving == true;
 				showSaveDialog();
+                                //nowFileSaving == false;
 			}
 		});
 		return saveAsMenuItem;
@@ -416,7 +433,7 @@ public class Editor
 	 *
 	 * @return the JMenuItem for exporting
 	 */
-	private static JMenuItem createExportMenuItem()
+	public static JMenuItem createExportMenuItem()
 	{
 		JMenuItem exportMenuItem = new JMenuItem("Create Export Text");
 		exportMenuItem.addActionListener(new ActionListener()
@@ -456,7 +473,7 @@ public class Editor
 	 *
 	 * @return the JMenuItem for importing
 	 */
-	private static JMenuItem createImportMenuItem()
+	public static JMenuItem createImportMenuItem()
 	{
 		JMenuItem importMenuItem = new JMenuItem("Import Text");
 		importMenuItem.addActionListener(new ActionListener()
@@ -500,7 +517,7 @@ public class Editor
 	 *
 	 * @return the JMenuItem for exiting the application
 	 */
-	private static JMenuItem createExitMenuItem()
+	public static JMenuItem createExitMenuItem()
 	{
 		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.addActionListener(new ActionListener()
@@ -518,7 +535,7 @@ public class Editor
 	 *
 	 * @return the JMenuItem for clearing the data
 	 */
-	private static JMenuItem createClearMenuItem()
+	public static JMenuItem createClearMenuItem()
 	{
 		JMenuItem exitMenuItem = new JMenuItem("Clear");
 		exitMenuItem.addActionListener(new ActionListener()
@@ -542,19 +559,63 @@ public class Editor
 	private static JMenu createHelpMenu()
 	{
 		JMenu helpMenu = new JMenu("Help");
+                
+                helpMenu.add(createAboutMenuItem());
+		helpMenu.add(createTipsMenuItem());
+                
+//		JMenuItem aboutMenuItem = new JMenuItem("About");
+//		aboutMenuItem.addActionListener(new ActionListener()
+//		{
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				JDialog about = new About(frame);
+//				about.setLocationRelativeTo(frame);
+//				about.setVisible(true);
+//			}
+//		});
+//		helpMenu.add(aboutMenuItem);
+
+		return helpMenu;
+	}
+        
+        /**
+	 * Returns About frame.
+	 *
+	 * @return the About menu item.
+	 */
+	public static JMenuItem createAboutMenuItem()
+	{
 		JMenuItem aboutMenuItem = new JMenuItem("About");
 		aboutMenuItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				JDialog about = new About(frame);
+                                JDialog about = new About(frame);
 				about.setLocationRelativeTo(frame);
 				about.setVisible(true);
 			}
 		});
-		helpMenu.add(aboutMenuItem);
-
-		return helpMenu;
+		return aboutMenuItem;
+	}
+        
+        /**
+	 * Returns Tips frame.
+	 *
+	 * @return the Tips menu item.
+	 */
+	public static JMenuItem createTipsMenuItem()
+	{
+		JMenuItem tipsMenuItem = new JMenuItem("Tips");
+		tipsMenuItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+                                JDialog tips = new Tips(frame);
+				tips.setLocationRelativeTo(frame);
+				tips.setVisible(true);
+			}
+		});
+		return tipsMenuItem;
 	}
 
 	private static String generateExportString()

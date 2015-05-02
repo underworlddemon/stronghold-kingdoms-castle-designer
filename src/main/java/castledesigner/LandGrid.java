@@ -39,13 +39,13 @@ import javax.swing.JPanel;
 public class LandGrid extends JPanel
 {
 	private static final int tileWidth = 14;
-	private int gridOffsetX = 20;
-	private int gridOffsetY = 20;
+//	private final int gridOffsetX = 20;
+//	private final int gridOffsetY = 20;
 
 	private Castle castle = new Castle();
 	
-	private String coordinates = "[0, 0]";
-	private BuildingType selectedBuilding = BuildingType.STONE_WALL;
+//	private String coordinates = "[0, 0]";
+	private BuildingType selectedBuilding = BuildingType.GREAT_TOWER;
 
 	private static final Color GRASS = new Color(0, 125, 0);
 
@@ -64,7 +64,8 @@ public class LandGrid extends JPanel
 			public void mouseMoved(MouseEvent e) {
 				mouseCoords = getCoords(e.getX(), e.getY());
 				
-				coordinates = "[" + mouseCoords[0] + ", " + mouseCoords[1] + "]";
+//				coordinates = "[" + mouseCoords[0] + ", " + mouseCoords[1] + "]";
+                                MenuPanel.coordinatesStr.setText("[" + mouseCoords[0] + ", " + mouseCoords[1] + "]");
 				LandGrid.this.repaint();
 			}
 			
@@ -72,7 +73,8 @@ public class LandGrid extends JPanel
 			public void mouseDragged(MouseEvent e)
 			{
 				mouseCoords = getCoords(e.getX(), e.getY());
-				coordinates = "[" + mouseCoords[0] + ", " + mouseCoords[1] + "]";
+//				coordinates = "[" + mouseCoords[0] + ", " + mouseCoords[1] + "]";
+                                MenuPanel.coordinatesStr.setText("[" + mouseCoords[0] + ", " + mouseCoords[1] + "]");
 				changeGridData(e);
 				LandGrid.this.repaint();
 			}
@@ -97,8 +99,11 @@ public class LandGrid extends JPanel
 		});
 
 		this.setMinimumSize(new Dimension(
-			tileWidth*Castle.CASTLE_BOUNDRY_LENGTH + gridOffsetX,
-			tileWidth*Castle.CASTLE_BOUNDRY_LENGTH + gridOffsetY));
+			tileWidth*Castle.CASTLE_BOUNDRY_LENGTH 
+//                                + gridOffsetX
+                        ,tileWidth*Castle.CASTLE_BOUNDRY_LENGTH 
+//                                + gridOffsetY
+                ));
 	}
 
 	public void addDesignListener(DesignListener designListener)
@@ -234,8 +239,12 @@ public class LandGrid extends JPanel
 	
 	private int[] getCoords(int ex, int ey)
 	{
-		return new int[] {(int)Math.floor(((double)(ex - gridOffsetX)) / tileWidth),
-			(int)Math.floor(((double)(ey - gridOffsetY)) / tileWidth)};
+		return new int[] {(int)Math.floor(((double)(ex 
+//                        - gridOffsetX
+                        )) / tileWidth),
+			(int)Math.floor(((double)(ey
+//                                - gridOffsetY
+                                )) / tileWidth)};
 	}
 	
 	@Override
@@ -243,9 +252,9 @@ public class LandGrid extends JPanel
 	{
 		super.paintComponent(g);
 		
-		g.drawString(coordinates, 10, 15);
+//		g.drawString(coordinates, 10, 15);
 		
-		g.translate(gridOffsetX, gridOffsetY);
+//		g.translate(gridOffsetX, gridOffsetY);
 		
 		//Draw any plain colours, e.g. grass & keep 
 		for (int i=0; i<Castle.CASTLE_BOUNDRY_LENGTH; i++)
@@ -303,7 +312,12 @@ public class LandGrid extends JPanel
 
 		int[] hotspot = selectedBuilding.getHotspot();
 
-		g.drawImage(overlay, (mouseCoords[0] - hotspot[0])*tileWidth+1, (mouseCoords[1] - hotspot[1])*tileWidth+1, null);
+		//if (!castledesigner.Editor.nowFileSaving)
+                //{
+                        //disable mouse overlay for image saving
+                        g.drawImage(overlay, (mouseCoords[0] - hotspot[0])*tileWidth+1, (mouseCoords[1] - hotspot[1])*tileWidth+1, null);
+                //}
+                                
 	}
 
 	/**
