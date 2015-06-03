@@ -335,6 +335,27 @@ public class LandGrid extends JPanel
 		castle.resetGridData();
 		notifyDesignListeners();
 	}
+        
+        public void all_Moat()
+	{
+		castle.all_Moat();
+                notifyDesignListeners();
+		repaint();
+	}
+        
+        public void delete_all_Moat()
+	{
+		castle.delete_all_Moat();
+                notifyDesignListeners();
+		repaint();
+	}
+        
+        public void stone_perimeter()
+	{
+		castle.stone_perimeter();
+                notifyDesignListeners();
+		repaint();
+	}
 
 	public void importData(String text) throws UnsupportedVersionException
 	{

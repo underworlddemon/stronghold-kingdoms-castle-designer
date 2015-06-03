@@ -52,16 +52,18 @@ public class MenuPanel extends JPanel
 		fileMenu.add(Editor.createOpenMenuItem());
 		fileMenu.add(Editor.createSaveMenuItem());
 		fileMenu.add(Editor.createSaveAsMenuItem());
-
 		fileMenu.add(new JPopupMenu.Separator());
 		fileMenu.add(Editor.createExportMenuItem());
 		fileMenu.add(Editor.createImportMenuItem());
-		
-		fileMenu.add(new JPopupMenu.Separator());
-		fileMenu.add(Editor.createClearMenuItem());
-		
-		fileMenu.add(new JPopupMenu.Separator());
+                fileMenu.add(new JPopupMenu.Separator());
 		fileMenu.add(Editor.createExitMenuItem());
+                
+                final JPopupMenu  toolsMenu = new JPopupMenu ("File");
+
+		toolsMenu.add(Editor.createAllMoatMenuItem());
+                toolsMenu.add(Editor.createStonePerimeterMenuItem());
+                toolsMenu.add(new JPopupMenu.Separator());
+                toolsMenu.add(Editor.createClearMenuItem());
                 
                 final JPopupMenu helpMenu = new JPopupMenu("Help");
                 helpMenu.add(Editor.createAboutMenuItem());
@@ -78,6 +80,14 @@ public class MenuPanel extends JPanel
                                 ), menuButton.getBounds().y + menuButton.getBounds().height);
                     }
                 });
+                final JButton toolsButton = new JButton("Tools");
+                toolsButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent ev) {
+                        toolsMenu.show(toolsButton, (toolsButton.getBounds().x 
+                                - toolsButton.getBounds().width
+                                ), toolsButton.getBounds().y + toolsButton.getBounds().height);
+                    }
+                });
                 final JButton helpButton = new JButton("Help");
                 helpButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ev) {
@@ -91,8 +101,8 @@ public class MenuPanel extends JPanel
                 
                 menuPanel.add(coordinatesStr);
                 menuPanel.add(menuButton);
+                menuPanel.add(toolsButton);
                 menuPanel.add(helpButton);
-                menuPanel.add(new JLabel ("    "));
                 
                 add(menuPanel, BorderLayout.CENTER);
                 

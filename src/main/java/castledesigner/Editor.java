@@ -231,41 +231,41 @@ public class Editor
 	 * 
 	 * @return the JMenuBar for our application's main screen
 	 */
-	private static JMenuBar createMenuBar()
-	{
-        	JMenuBar menuBar = new JMenuBar();
-		
-		menuBar.add(createFileMenu());
-		menuBar.add(createHelpMenu());
-
-		return menuBar;
-	}
+//	private static JMenuBar createMenuBar()
+//	{
+//        	JMenuBar menuBar = new JMenuBar();
+//		
+//		menuBar.add(createFileMenu());
+//		menuBar.add(createHelpMenu());
+//
+//		return menuBar;
+//	}
 
 	/**
 	 * Returns the File menu
 	 * 
 	 * @return the File JMenu
 	 */
-	private static JMenu createFileMenu()
-	{
-        	JMenu fileMenu = new JMenu("File");
-
-		fileMenu.add(createOpenMenuItem());
-		fileMenu.add(createSaveMenuItem());
-		fileMenu.add(createSaveAsMenuItem());
-
-		fileMenu.add(new JPopupMenu.Separator());
-		fileMenu.add(createExportMenuItem());
-		fileMenu.add(createImportMenuItem());
-		
-		fileMenu.add(new JPopupMenu.Separator());
-		fileMenu.add(createClearMenuItem());
-		
-		fileMenu.add(new JPopupMenu.Separator());
-		fileMenu.add(createExitMenuItem());
-
-		return fileMenu;
-	}
+//	private static JMenu createFileMenu()
+//	{
+//        	JMenu fileMenu = new JMenu("File");
+//
+//		fileMenu.add(createOpenMenuItem());
+//		fileMenu.add(createSaveMenuItem());
+//		fileMenu.add(createSaveAsMenuItem());
+//
+//		fileMenu.add(new JPopupMenu.Separator());
+//		fileMenu.add(createExportMenuItem());
+//		fileMenu.add(createImportMenuItem());
+//		
+//		fileMenu.add(new JPopupMenu.Separator());
+//		fileMenu.add(createClearMenuItem());
+//		
+//		fileMenu.add(new JPopupMenu.Separator());
+//		fileMenu.add(createExitMenuItem());
+//
+//		return fileMenu;
+//	}
 
 	/**
 	 * Returns the menu item to open/load castles.
@@ -556,7 +556,7 @@ public class Editor
 	 *
 	 * @return the JMenu for the Help menu
 	 */
-	private static JMenu createHelpMenu()
+	public static JMenu createHelpMenu()
 	{
 		JMenu helpMenu = new JMenu("Help");
                 
@@ -610,12 +610,50 @@ public class Editor
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-                                JDialog tips = new Tips(frame);
+                                JDialog tips = new AllMoat(frame);
 				tips.setLocationRelativeTo(frame);
 				tips.setVisible(true);
 			}
 		});
 		return tipsMenuItem;
+	}
+        
+        public static JMenuItem createAllMoatMenuItem()
+	{
+		JMenuItem allMoatMenuItem = new JMenuItem("All moat");
+		allMoatMenuItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+                                JDialog allMoat = new AllMoat(frame);
+				allMoat.setLocationRelativeTo(frame);
+				allMoat.setVisible(true);
+			}
+		});
+		return allMoatMenuItem;
+	}
+        
+        public static void all_Moat()
+	{
+            landPanel.getLandGrid().all_Moat();
+        }
+        
+        public static void delete_all_Moat()
+	{
+            landPanel.getLandGrid().delete_all_Moat();
+        }
+        
+        public static JMenuItem createStonePerimeterMenuItem()
+	{
+		JMenuItem stonePerimeterMenuItem = new JMenuItem("Stone perimeter");
+		stonePerimeterMenuItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+                             landPanel.getLandGrid().stone_perimeter();
+			}
+		});
+		return stonePerimeterMenuItem;
 	}
 
 	private static String generateExportString()

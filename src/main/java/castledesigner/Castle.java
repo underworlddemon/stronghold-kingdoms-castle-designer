@@ -106,6 +106,84 @@ public class Castle
 		}
 		updateDesignStats();
 	}
+        
+        public void all_Moat()
+	{
+		for (int i=0; i<gridData.length; i++)
+		{
+			for (int j=0; j<gridData[i].length; j++)
+			{
+                            if (gridData[i][j] == null){
+                                gridData[i][j] = new TileBuilding(BuildingType.MOAT, getNewId());
+                            }
+			}
+		}
+		
+		updateDesignStats();
+	}
+        
+        public void delete_all_Moat()
+	{
+		for (int i=0; i<gridData.length; i++)
+		{
+			for (int j=0; j<gridData[i].length; j++)
+			{
+                            if (gridData[i][j].getBuildingType() == BuildingType.MOAT){
+                                gridData[i][j] = null;
+                            }
+			}
+		}
+		
+		updateDesignStats();
+	}
+        
+        public void stone_perimeter()
+	{
+            int l = gridData.length;
+            int s = gridData.length-5;
+            
+		for (int i=0; i<s; i++)
+		{
+			for (int j=0; j<5; j++)
+			{
+                            if (gridData[i][j] == null){
+                                gridData[i][j] = new TileBuilding(BuildingType.STONE_WALL, getNewId());
+                            }
+			}
+		}
+                
+                for (int i=s; i<l; i++)
+		{
+			for (int j=0; j<s; j++)
+			{
+                            if (gridData[i][j] == null){
+                                gridData[i][j] = new TileBuilding(BuildingType.STONE_WALL, getNewId());
+                            }
+			}
+		}
+                
+                for (int i=5; i<l; i++)
+		{
+			for (int j=s; j<l; j++)
+			{
+                            if (gridData[i][j] == null){
+                                gridData[i][j] = new TileBuilding(BuildingType.STONE_WALL, getNewId());
+                            }
+			}
+		}
+                
+                for (int i=0; i<5; i++)
+		{
+			for (int j=5; j<l; j++)
+			{
+                            if (gridData[i][j] == null){
+                                gridData[i][j] = new TileBuilding(BuildingType.STONE_WALL, getNewId());
+                            }
+			}
+		}
+		
+		updateDesignStats();
+	}
 
 	/**
 	 * Returns a string full of lovely data representing what buildings
