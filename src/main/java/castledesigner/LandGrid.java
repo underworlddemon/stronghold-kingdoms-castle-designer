@@ -312,11 +312,11 @@ public class LandGrid extends JPanel
 
 		int[] hotspot = selectedBuilding.getHotspot();
 
-		//if (!castledesigner.Editor.nowFileSaving)
-                //{
+		if (!castledesigner.Editor.nowFileSaving)
+                {
                         //disable mouse overlay for image saving
                         g.drawImage(overlay, (mouseCoords[0] - hotspot[0])*tileWidth+1, (mouseCoords[1] - hotspot[1])*tileWidth+1, null);
-                //}
+                }
                                 
 	}
 
@@ -327,32 +327,35 @@ public class LandGrid extends JPanel
 	public void clearData()
 	{
 		resetGridData();
-		repaint();
+		REpaint();
 	}
 
 	private void resetGridData()
 	{
 		castle.resetGridData();
-		notifyDesignListeners();
+		REpaint();
 	}
         
         public void all_Moat()
 	{
 		castle.all_Moat();
-                notifyDesignListeners();
-		repaint();
+		REpaint();
 	}
         
         public void delete_all_Moat()
 	{
 		castle.delete_all_Moat();
-                notifyDesignListeners();
-		repaint();
+		REpaint();
 	}
         
         public void stone_perimeter()
 	{
 		castle.stone_perimeter();
+		REpaint();
+	}
+        
+        public void REpaint()
+	{
                 notifyDesignListeners();
 		repaint();
 	}

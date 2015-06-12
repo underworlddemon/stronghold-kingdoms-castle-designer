@@ -73,7 +73,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Editor
 {
 	public static final String programVersion = "1.12";
-       // public static Boolean nowFileSaving = false;
+        public static Boolean nowFileSaving = false;
 	private static LandPanel landPanel;
 	private static JFrame frame;
 	private static JFileChooser saveFileChooser;
@@ -142,7 +142,9 @@ public class Editor
 				.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 				.addComponent(errorPanel)				
                 );
+
         	JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, landPanel, rightPanel);
+//		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(landPanel), new JScrollPane(rightPanel));
 		
 		mainPanel.add(splitPane);
 
@@ -192,10 +194,12 @@ public class Editor
 		frame = new JFrame("Stronghold Kingdoms Castle Designer");
 		//frame.setJMenuBar(createMenuBar());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//                frame.getContentPane().add(mainPanel);
 		frame.getContentPane().add(mainScrollPane);
 		frame.pack();
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
-                frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+                
 	}
 
 	/**
@@ -352,9 +356,11 @@ public class Editor
 			{
 				if (currentFile == null || !currentFile.getName().endsWith('.' + FILE_EXTENSION))
 				{
-					//nowFileSaving == true;
+					// disable mouse overlay for image saving
+                                        nowFileSaving = true;
+                                        landPanel.getLandGrid().REpaint();
                                         showSaveDialog();
-                                        //nowFileSaving == false;
+                                        nowFileSaving = false;
 				}
 				else
 				{
@@ -610,7 +616,7 @@ public class Editor
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-                                JDialog tips = new AllMoat(frame);
+                                JDialog tips = new Tips(frame);
 				tips.setLocationRelativeTo(frame);
 				tips.setVisible(true);
 			}
