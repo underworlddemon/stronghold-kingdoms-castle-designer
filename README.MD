@@ -9,4 +9,5 @@ Some fix and advansed tools from me (AllMoat and StonePerimetr) for quick design
 ##Legal sillyness
 Please see the file named LICENSE
 
-I hope you enjoy this tool! ~tempestua (mostly on world 3)
+I hope you enjoy this tool! 
+UWDeMoN aka underworlddemon
